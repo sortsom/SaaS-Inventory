@@ -21,5 +21,23 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        // Create Roles & Permissions
+        $this->call(RolePermissionSeeder::class);
+
+        // Super Admin
+        $superAdmin = User::factory()->superAdmin()->create();
+        $superAdmin->assignRole('Super Admin');
+
+        // Company Admin
+        $companyAdmin = User::factory()->companyAdmin()->create();
+        $companyAdmin->assignRole('Company Admin');
+
+        // Warehouse Staff
+        $warehouse = User::factory()->warehouseStaff()->create();
+        $warehouse->assignRole('Warehouse Staff');
+
+        // Sales Staff
+        $sales = User::factory()->salesStaff()->create();
+        $sales->assignRole('Sales Staff');
     }
 }

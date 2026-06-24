@@ -9,14 +9,15 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
-
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
     /**
      * Get the attributes that should be cast.
      *
@@ -29,4 +30,26 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+   public function company()
+{
+    return $this->belongsTo(Company::class);
+}
+
+
+public function assignCompany(Request $request, User $user)
+{
+    $request->validate([
+        'company_id' => 'required|exists:companies,id'
+    ]);
+
+    $user->update([
+        'company_id' => $request->company_id
+    ]);
+
+    return response()->json([
+        'message' => 'Company assigned successfully',
+        'user' => $user
+    ]);
+}
 }

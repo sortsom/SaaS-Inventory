@@ -32,6 +32,41 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+public function superAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'Super Admin',
+            'email' => 'admin@saasinventory.com',
+            'password' => Hash::make('password'),
+        ]);
+    }
+
+    public function companyAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'Company Admin',
+            'email' => 'company@saasinventory.com',
+            'password' => Hash::make('password'),
+        ]);
+    }
+
+    public function warehouseStaff(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'Warehouse Staff',
+            'email' => 'warehouse@saasinventory.com',
+            'password' => Hash::make('password'),
+        ]);
+    }
+
+    public function salesStaff(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'Sales Staff',
+            'email' => 'sales@saasinventory.com',
+            'password' => Hash::make('password'),
+        ]);
+    }
 
     /**
      * Indicate that the model's email address should be unverified.
